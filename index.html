@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101426" />
+  <title>StudySprint — Exam Countdown & Revision Planner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">✦</span><span>StudySprint<small>YOUR STUDY SPACE</small></span></a>
+      <div class="side-label">WORKSPACE</div>
+      <button class="nav-item active" data-view="dashboard"><span>▦</span> Dashboard</button>
+      <button class="nav-item" data-view="exams"><span>◷</span> My Exams</button>
+      <button class="nav-item" data-view="tasks"><span>☑</span> Revision Tasks</button>
+      <button class="nav-item" data-view="planner"><span>✧</span> Smart Planner</button>
+      <div class="sidebar-bottom">
+        <div class="tip-card"><div class="tip-icon">✧</div><b>Small steps count.</b><p>One focused session today is progress toward exam day.</p></div>
+        <button id="themeToggle" class="theme-toggle">☾ <span>Switch appearance</span></button>
+        <div class="sidebar-foot">Made for focused minds ✦</div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div><div class="eyebrow" id="todayLabel">YOUR STUDY OVERVIEW</div><h1 id="pageTitle">Dashboard</h1></div>
+        <div class="top-actions"><span class="today-pill" id="datePill"></span><button class="avatar" title="Study mode">S</button></div>
+      </header>
+
+      <section class="view active" id="view-dashboard">
+        <div class="hero">
+          <div class="hero-copy"><div class="hero-tag">✦ YOUR NEXT CHAPTER STARTS HERE</div><h2>Make today<br><em>count.</em></h2><p>Plan your revision, stay consistent, and walk into exam day feeling prepared.</p><button class="btn btn-light" id="heroAddTask">＋ Add revision task <span>↗</span></button></div>
+          <div class="hero-art" aria-hidden="true"><div class="orb orb-one"></div><div class="orb orb-two"></div><div class="book book-back"></div><div class="book book-front"><div class="book-lines"></div><div class="book-star">✦</div></div><div class="spark s1">✦</div><div class="spark s2">✧</div><div class="spark s3">·</div></div>
+        </div>
+
+        <div class="stats-grid">
+          <article class="stat-card"><div class="stat-top"><span class="stat-icon purple">◷</span><span class="stat-note">UPCOMING</span></div><div class="stat-number" id="statExams">0</div><div class="stat-label">Exams planned</div><div class="stat-foot">Keep every date in sight</div></article>
+          <article class="stat-card"><div class="stat-top"><span class="stat-icon peach">☑</span><span class="stat-note">TO DO</span></div><div class="stat-number" id="statTasks">0</div><div class="stat-label">Tasks remaining</div><div class="stat-foot">One task at a time</div></article>
+          <article class="stat-card"><div class="stat-top"><span class="stat-icon mint">✓</span><span class="stat-note">COMPLETED</span></div><div class="stat-number" id="statDone">0%</div><div class="stat-label">Revision progress</div><div class="progress-track"><span id="overallProgress"></span></div></article>
+          <article class="stat-card"><div class="stat-top"><span class="stat-icon blue">⌁</span><span class="stat-note">TODAY</span></div><div class="stat-number" id="statToday">0</div><div class="stat-label">Tasks scheduled today</div><div class="stat-foot">Protect your focus time</div></article>
+        </div>
+
+        <div class="content-grid">
+          <section class="panel exam-panel"><div class="panel-heading"><div><div class="eyebrow">KEEP YOUR EYES ON THE GOAL</div><h3>Upcoming exams</h3></div><button class="text-button" data-goto="exams">View all ↗</button></div><div id="upcomingExams" class="exam-list"></div></section>
+          <section class="panel focus-panel"><div class="panel-heading"><div><div class="eyebrow">YOUR DAILY MOMENTUM</div><h3>Today's revision</h3></div><button class="text-button" data-goto="tasks">View tasks ↗</button></div><div id="todayTasks" class="today-task-list"></div><div class="focus-footer"><span class="focus-dot"></span><span id="focusFooterText">Every completed task moves you forward.</span></div></section>
+        </div>
+      </section>
+
+      <section class="view" id="view-exams">
+        <div class="section-intro"><div><div class="eyebrow">DATES, SUBJECTS & DEADLINES</div><h2>My exams</h2><p>Put every exam on the calendar and know exactly how much time you have.</p></div><button class="btn btn-primary" id="addExamBtn">＋ Add exam</button></div>
+        <div class="exam-cards" id="allExams"></div>
+        <div class="empty-state hidden" id="noExams"><span>◷</span><h3>Your exam calendar starts here</h3><p>Add your first exam to begin your countdown.</p><button class="btn btn-primary" id="emptyAddExam">＋ Add your first exam</button></div>
+      </section>
+
+      <section class="view" id="view-tasks">
+        <div class="section-intro"><div><div class="eyebrow">BUILD YOUR DAILY CONSISTENCY</div><h2>Revision tasks</h2><p>Break a big syllabus into small, achievable study sessions.</p></div><button class="btn btn-primary" id="addTaskBtn">＋ Add task</button></div>
+        <div class="task-toolbar"><div class="filter-tabs"><button class="filter-tab active" data-filter="all">All tasks</button><button class="filter-tab" data-filter="pending">To do</button><button class="filter-tab" data-filter="done">Completed</button></div><select id="taskSort" class="select"><option value="date">Sort by date</option><option value="priority">Sort by priority</option><option value="subject">Sort by subject</option></select></div>
+        <div id="allTasks" class="task-list"></div>
+        <div class="empty-state hidden" id="noTasks"><span>☑</span><h3>No revision tasks yet</h3><p>Add topics you want to revise and build your plan.</p><button class="btn btn-primary" id="emptyAddTask">＋ Add your first task</button></div>
+      </section>
+
+      <section class="view" id="view-planner">
+        <div class="section-intro"><div><div class="eyebrow">A PLAN THAT ADAPTS TO YOUR EXAMS</div><h2>Smart planner</h2><p>Get a prioritized revision plan based on exam dates, priority, and unfinished tasks.</p></div><button class="btn btn-primary" id="generatePlan">✧ Generate plan</button></div>
+        <div class="planner-callout"><span class="callout-icon">✦</span><div><b>Your next best step</b><p id="plannerSummary">Add an exam and a few revision tasks. StudySprint will suggest what to focus on first.</p></div></div>
+        <div id="smartPlan" class="plan-list"></div>
+      </section>
+
+      <footer class="main-footer"><span>StudySprint © <span id="year"></span></span><span>Progress, not perfection. ✦</span><button id="resetData" class="reset-button">Reset all data</button></footer>
+    </main>
+  </div>
+
+  <dialog id="examDialog" class="modal">
+    <form id="examForm" method="dialog">
+      <div class="modal-head"><div><div class="eyebrow">ADD TO YOUR CALENDAR</div><h3 id="examModalTitle">Add an exam</h3></div><button type="button" class="close-btn" data-close="examDialog">×</button></div>
+      <input type="hidden" id="examId" />
+      <label>Subject name<input id="examSubject" required maxlength="60" placeholder="e.g. Database Management Systems" /></label>
+      <div class="form-row"><label>Exam date<input id="examDate" type="date" required /></label><label>Exam time<input id="examTime" type="time" value="09:00" /></label></div>
+      <label>Exam type / room (optional)<input id="examNote" maxlength="100" placeholder="e.g. Mid-term · Room 204" /></label>
+      <label>Preparation level <select id="examLevel"><option value="low">Need more revision</option><option value="medium" selected>Getting there</option><option value="high">Feeling prepared</option></select></label>
+      <div class="modal-actions"><button type="button" class="btn btn-ghost" data-close="examDialog">Cancel</button><button type="submit" class="btn btn-primary">Save exam</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="taskDialog" class="modal">
+    <form id="taskForm" method="dialog">
+      <div class="modal-head"><div><div class="eyebrow">MAKE IT ACHIEVABLE</div><h3 id="taskModalTitle">Add revision task</h3></div><button type="button" class="close-btn" data-close="taskDialog">×</button></div>
+      <input type="hidden" id="taskId" />
+      <label>Topic / task name<input id="taskTitle" required maxlength="100" placeholder="e.g. Practice binary search problems" /></label>
+      <label>Subject<select id="taskSubject" required><option value="">Choose a subject</option></select></label>
+      <div class="form-row"><label>Study date<input id="taskDate" type="date" required /></label><label>Duration (minutes)<input id="taskDuration" type="number" min="5" max="720" value="45" required /></label></div>
+      <div class="form-row"><label>Priority<select id="taskPriority"><option value="high">High</option><option value="medium" selected>Medium</option><option value="low">Low</option></select></label><label>Type<select id="taskType"><option>Learn</option><option>Revise</option><option>Practice</option><option>Mock test</option></select></label></div>
+      <label class="check-label"><input id="taskDone" type="checkbox" /> Mark as completed</label>
+      <div class="modal-actions"><button type="button" class="btn btn-ghost" data-close="taskDialog">Cancel</button><button type="submit" class="btn btn-primary">Save task</button></div>
+    </form>
+  </dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
